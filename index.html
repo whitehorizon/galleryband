@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Галерея — инди-рок группа</title>
+  
+  <meta name="description" content="Официальный сайт инди-рок группы Галерея. Живой аналоговый звук из Зеленограда, расписание концертов, релизы, биография и эксклюзивные демоверсии треков." />
+  
+  <link rel="icon" href="images/favicon.png" type="image/png" />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    html { scroll-behavior: smooth; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* Кастомный скроллбар */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #060606; }
+    ::-webkit-scrollbar-thumb { background: #1e1e1e; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #c8b89a; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(180deg, #060606 0%, #121215 35%, #09090b 70%, #060606 100%) fixed;
+      color: #f0ece4;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    /* НАВИГАЦИЯ */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 30px 8%;
+      position: fixed;
+      top: 0; left: 0; width: 100%;
+      background: linear-gradient(to bottom, rgba(6,6,6,0.95) 0%, rgba(6,6,6,0) 100%);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 100;
+    }
+
+    .nav-logo {
+      font-weight: 900;
+      font-size: 32px;
+      letter-spacing: 0.1em;
+      color: #f0ece4;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.3s ease;
+    }
+    .nav-logo:hover { color: #c8b89a; }
+
+    .nav-links { display: flex; gap: 40px; align-items: center; list-style: none; }
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 700;
+      color: #888;
+      text-decoration: none;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: #c8b89a; }
+    .nav-links a.donate {
+      color: #060606;
+      background: #c8b89a;
+      padding: 8px 24px;
+      border-radius: 30px;
+      transition: all 0.3s;
+    }
+    .nav-links a.donate:hover {
+      background: #f0ece4;
+      box-shadow: 0 0 25px rgba(200, 184, 154, 0.3);
+    }
+
+    .burger-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: #f0ece4;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 1001;
+      transition: color 0.3s;
+    }
+    .burger-btn:hover { color: #c8b89a; }
+
+    /* МОБИЛЬНОЕ МЕНЮ */
+    .mobile-menu-drawer {
+      position: fixed; top: 0; right: 0; width: 320px; height: 100vh;
+      background: rgba(10, 10, 10, 0.98); border-left: 1px solid rgba(200, 184, 154, 0.1);
+      box-shadow: -10px 0 30px rgba(0,0,0,0.8); z-index: 1000;
+      display: flex; flex-direction: column; padding: 100px 40px 40px 40px;
+      transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); touch-action: pan-y;
+    }
+    .mobile-menu-drawer.active { transform: translateX(0); }
+    
+    .mobile-music-section { margin-bottom: 35px; padding-bottom: 25px; border-bottom: 1px solid #1c1c1f; }
+    .mobile-music-title { font-size: 11px; color: #c8b89a; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 14px; }
+    .mobile-music-links { display: flex; flex-direction: column; gap: 12px; }
+    .mobile-music-links a { color: #f0ece4; font-size: 15px; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 10px; transition: color 0.3s; }
+    .mobile-music-links a:hover { color: #c8b89a; }
+
+    .mobile-links-list { list-style: none; display: flex; flex-direction: column; gap: 22px; }
+    .mobile-links-list a { font-size: 14px; font-weight: 700; color: #a0a0a0; text-decoration: none; text-transform: uppercase; letter-spacing: 0.15em; transition: color 0.3s; }
+    .mobile-links-list a:hover { color: #c8b89a; }
+    .mobile-links-list a.mobile-donate { color: #c8b89a; }
+
+    /* ГЛАВНЫЙ ЭКРАН */
+    #hero {
+      height: 100vh; display: flex; flex-direction: column; justify-content: center;
+      padding: 0 8%; position: relative; overflow: hidden; border-bottom: 1px solid #121212;
+    }
+    .hero-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+    .hero-overlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(to bottom, rgba(6,6,6,0.4) 0%, rgba(6,6,6,0.85) 100%), rgba(6,6,6,0.3); z-index: 2;
+    }
+    .hero-content { position: relative; z-index: 3; }
+    .hero-tag { font-size: 13px; letter-spacing: 0.25em; color: #c8b89a; margin-bottom: 24px; text-transform: uppercase; font-weight: 800; }
+    .hero-title { font-size: 100px; font-weight: 900; line-height: 0.95; letter-spacing: -0.02em; text-transform: uppercase; }
+    .hero-title span { color: transparent; -webkit-text-stroke: 1.5px rgba(240, 236, 228, 0.8); }
+    .hero-sub { margin-top: 32px; font-size: 20px; font-weight: 500; color: #aaa; max-width: 600px; line-height: 1.6; }
+    .hero-btns { margin-top: 48px; display: flex; gap: 20px; flex-wrap: wrap; }
+
+    .btn-primary {
+      padding: 16px 36px; background: #f0ece4; color: #060606; font-size: 13px; border: none; border-radius: 4px;
+      font-weight: 800; text-decoration: none; letter-spacing: 0.05em; text-transform: uppercase; transition: all 0.3s ease;
+    }
+    .btn-primary:hover { background: #c8b89a; transform: translateY(-3px); }
+
+    .btn-ghost {
+      padding: 16px 36px; background: transparent; color: #f0ece4; font-size: 13px; border: 2px solid rgba(255,255,255,0.2);
+      border-radius: 4px; text-decoration: none; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; transition: all 0.3s ease;
+    }
+    .btn-ghost:hover { border-color: #f0ece4; background: rgba(255,255,255,0.05); transform: translateY(-3px); }
+
+    .music-toggle-btn {
+      position: fixed; bottom: 30px; right: 30px; z-index: 999; background: rgba(6, 6, 6, 0.85); border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #f0ece4; padding: 14px 24px; border-radius: 30px; cursor: pointer; font-size: 11px; font-weight: 800; letter-spacing: 0.15em;
+      text-transform: uppercase; display: flex; align-items: center; gap: 12px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      transition: all 0.3s;
+    }
+    .music-toggle-btn:hover { border-color: #c8b89a; color: #c8b89a; transform: scale(1.05); }
+    .music-toggle-btn.playing { background: #c8b89a; color: #060606; border-color: #c8b89a; box-shadow: 0 0 30px rgba(200, 184, 154, 0.4); }
+
+    section { padding: 140px 8%; border-bottom: 1px solid #121212; }
+    .section-label { font-size: 14px; letter-spacing: 0.25em; color: #555; text-transform: uppercase; margin-bottom: 64px; display: flex; align-items: center; gap: 24px; font-weight: 800; }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: #161616; }
+
+    /* КАРТОЧКИ УЧАСТНИКОВ */
+    .members-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; }
+    .member-card { background: rgba(17, 17, 17, 0.4); border: 1px solid #161616; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; transition: all 0.4s; }
+    .member-card:hover { transform: translateY(-8px); border-color: #c8b89a; box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+    .member-photo-box { width: 100%; aspect-ratio: 4 / 5; overflow: hidden; background: #0d0d0d; }
+    .member-photo-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; }
+    .member-card:hover .member-photo-box img { transform: scale(1.05); }
+    .member-info { padding: 28px 24px; }
+    .member-name { font-size: 22px; font-weight: 800; color: #f0ece4; margin-bottom: 6px; }
+    .member-role { font-size: 14px; color: #666; margin-bottom: 20px; font-weight: 500; }
+    .member-tag { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 12px; background: #161616; border-radius: 4px; color: #999; border: 1px solid #222; }
+
+    /* ВЫСТУПЛЕНИЯ */
+    .shows-status-title { font-size: 24px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; margin: 40px 0 20px 0; color: #c8b89a; display: flex; align-items: center; gap: 12px; }
+    .shows-status-title.past-title { color: #444; margin-top: 80px; }
+    .shows-list { display: flex; flex-direction: column; }
+    .show-row { display: flex; align-items: center; justify-content: space-between; padding: 32px 16px; border-bottom: 1px solid #161616; transition: all 0.3s ease; }
+    .show-row:hover { background: rgba(200, 184, 154, 0.02); padding-left: 32px; border-bottom-color: rgba(200, 184, 154, 0.3); }
+    .past-list .show-row { opacity: 0.4; }
+    .past-list .show-row:hover { opacity: 1; }
+    .past-list .show-date { color: #666; }
+    .show-date { font-size: 16px; font-weight: 800; color: #c8b89a; font-family: monospace; }
+    .show-venue { font-size: 20px; color: #f0ece4; font-weight: 800; }
+    .show-meta { font-size: 14px; color: #555; margin-top: 4px; font-weight: 500; }
+    .show-badge { font-size: 11px; font-weight: 800; padding: 6px 18px; border: 1px solid #222; border-radius: 4px; color: #666; text-transform: uppercase; }
+
+    /* МУЗЫКАЛЬНЫЕ РЕЛИЗЫ */
+    .music-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 50px; }
+    .album-card { background: rgba(17, 17, 17, 0.4); border: 1px solid #161616; padding: 40px; border-radius: 4px; display: flex; flex-direction: column; justify-content: space-between; }
+    .album-meta { display: flex; gap: 32px; align-items: center; margin-bottom: 40px; }
+    .album-cover { width: 120px; height: 120px; background: #161616; border: 1px solid #222; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 36px; color: #333; }
+    .album-title { font-size: 26px; font-weight: 900; }
+    .album-desc { color: #666; margin-top: 8px; font-size: 15px; font-weight: 500; }
+    .stream-list { display: flex; flex-direction: column; gap: 16px; }
+    .stream-link { display: flex; justify-content: space-between; align-items: center; padding: 24px 32px; background: rgba(255,255,255,0.01); border: 1px solid #161616; color: #f0ece4; text-decoration: none; font-weight: 700; transition: all 0.3s; }
+    .stream-link:hover { border-color: rgba(255,255,255,0.1); background: #111; transform: translateX(6px); }
+
+    /* ДИНАМИЧЕСКАЯ БИОГРАФИЯ - ТАЙМЛАЙН */
+    #biography { position: relative; overflow: hidden; }
+    .bio-video-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; filter: blur(24px) brightness(0.25) saturate(0.8); transform: scale(1.12); will-change: transform; }
+    .bio-video-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(ellipse at center, rgba(12,12,14,0.3) 0%, rgba(6,6,6,0.88) 100%); z-index: 2; }
+    .bio-box { max-width: 850px; margin: 0 auto; background: rgba(6, 6, 6, 0.6); border: 1px solid rgba(200, 184, 154, 0.15); padding: 50px; border-radius: 8px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); position: relative; z-index: 3; }
+    .section-label-bio { position: relative; z-index: 3; }
+
+    .timeline { position: relative; padding-left: 32px; border-left: 2px solid rgba(200, 184, 154, 0.3); margin-top: 10px; }
+    .timeline-item { margin-bottom: 40px; position: relative; }
+    .timeline-item:last-child { margin-bottom: 0; }
+    .timeline-item::before { content: ''; position: absolute; left: -39px; top: 0; width: 12px; height: 12px; border-radius: 50%; background: #c8b89a; border: 3px solid #060606; box-shadow: 0 0 10px rgba(200, 184, 154, 0.5); }
+    .timeline-date { font-size: 13px; color: #c8b89a; font-weight: 800; margin-bottom: 8px; letter-spacing: 0.15em; text-transform: uppercase; }
+    .timeline-title { font-size: 22px; font-weight: 800; color: #f0ece4; margin-bottom: 12px; line-height: 1.3; }
+    .timeline-text { font-size: 15px; line-height: 1.8; color: #ccc; font-weight: 500; }
+    .timeline-text p { margin-bottom: 12px; }
+    .timeline-text p:last-child { margin-bottom: 0; }
+    .highlight { color: #fff; font-weight: 700; background: rgba(200, 184, 154, 0.15); padding: 2px 6px; border-radius: 4px; }
+
+    /* ФОТОГАЛЕРЕЯ */
+    .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .gallery-grid:hover .gallery-item:not(:hover) { filter: blur(2px) grayscale(0.3); opacity: 0.6; }
+    .gallery-item { aspect-ratio: 1; background: #111; border: 1px solid #161616; overflow: hidden; cursor: pointer; transition: all 0.4s ease; border-radius: 4px; }
+    .gallery-item:first-child { grid-column: span 2; grid-row: span 2; }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+    .gallery-item:hover img { transform: scale(1.05); }
+
+    /* БЛОК ДОНАТОВ */
+    .donate-box { background: linear-gradient(180deg, rgba(17,17,17,0.6) 0%, rgba(6,6,6,0) 100%); border: 1px solid rgba(200, 184, 154, 0.15); padding: 80px 40px; text-align: center; max-width: 800px; margin: 0 auto; border-radius: 8px; }
+    .donate-title { font-size: 32px; font-weight: 900; margin-bottom: 16px; }
+    .donate-text { color: #666; max-width: 500px; margin: 0 auto 40px; font-size: 16px; font-weight: 500; }
+    .donate-button { padding: 18px 48px; background: #c8b89a; color: #060606; font-size: 14px; font-weight: 800; text-decoration: none; text-transform: uppercase; letter-spacing: 0.1em; border-radius: 4px; transition: all 0.3s; }
+    .donate-button:hover { background: #f0ece4; box-shadow: 0 10px 30px rgba(200, 184, 154, 0.2); }
+
+    /* АНИМАЦИИ */
+    @keyframes vinylSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .album-cover i { animation: vinylSpin 10s linear infinite; display: inline-block; }
+    .bg-particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+    .particle { position: absolute; border-radius: 50%; background: rgba(200, 184, 154, 0.18); will-change: transform; }
+    .particle:nth-child(1) { width: 2px; height: 2px; top: 12%; left: 8%;  animation: fp 20s ease-in-out infinite 0s; }
+    .particle:nth-child(2) { width: 1px; height: 1px; top: 38%; left: 82%; animation: fp 25s ease-in-out infinite 4s; }
+    .particle:nth-child(3) { width: 3px; height: 3px; top: 65%; left: 18%; animation: fp 17s ease-in-out infinite 7s; opacity: 0.1; }
+    .particle:nth-child(4) { width: 1px; height: 1px; top: 22%; left: 58%; animation: fp 22s ease-in-out infinite 2s; }
+    @keyframes fp { 0% { transform: translateY(0) translateX(0); opacity: 0.14; } 33% { transform: translateY(-28px) translateX(14px); opacity: 0.3; } 66% { transform: translateY(10px) translateX(-18px); opacity: 0.07; } 100% { transform: translateY(0) translateX(0); opacity: 0.14; } }
+    .scroll-reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+    .scroll-reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ДОЧЕРНЯЯ СТРАНИЦА: ДЕМО ВЕРСИИ + НОВЫЕ ЭФФЕКТЫ */
+    @keyframes fadeInScale {
+      0% { opacity: 0; transform: scale(0.97); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    .subpage-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #060606 0%, #16161a 100%); z-index: 2000; display: none; overflow-y: auto; padding: 60px 8% 140px 8%; }
+    .subpage-container.active { display: block; animation: fadeInScale 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .subpage-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 60px; }
+    .btn-back { background: transparent; border: 2px solid rgba(255,255,255,0.15); color: #f0ece4; padding: 12px 24px; font-size: 12px; font-weight: 800; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.1em; transition: all 0.3s; }
+    .btn-back:hover { border-color: #c8b89a; color: #c8b89a; }
+    .demos-layout { max-width: 800px; margin: 0 auto; }
+    .demos-list-wrapper { display: flex; flex-direction: column; gap: 14px; }
+    
+    @keyframes softPulse {
+      0% { box-shadow: 0 0 5px rgba(200, 184, 154, 0.05); }
+      50% { box-shadow: 0 0 25px rgba(200, 184, 154, 0.25); }
+      100% { box-shadow: 0 0 5px rgba(200, 184, 154, 0.05); }
+    }
+    
+    .demo-track-card { background: rgba(255,255,255,0.02); border: 1px solid #1a1a1f; padding: 22px 28px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden; }
+    .demo-track-card:hover { border-color: rgba(200, 184, 154, 0.4); background: rgba(255,255,255,0.04); transform: translateX(5px); }
+    .demo-track-card.active-track { border-color: #c8b89a; background: rgba(200,184,154,0.05); animation: softPulse 2.5s infinite ease-in-out; }
+    .demo-track-info-main { display: flex; align-items: center; gap: 18px; position: relative; z-index: 2; }
+    .demo-track-idx { font-family: monospace; color: #666; font-size: 14px; font-weight: 700; }
+    .demo-track-name { font-size: 16px; font-weight: 800; color: #f0ece4; }
+    .demo-track-duration { font-family: monospace; font-size: 13px; color: #555; font-weight: 600; position: relative; z-index: 2; }
+
+    /* ЭФФЕКТ ВОЛНЫ (RIPPLE) */
+    .ripple {
+      position: absolute; border-radius: 50%; transform: scale(0);
+      animation: rippleEffect 0.8s linear; background: radial-gradient(circle, rgba(200,184,154,0.5) 0%, rgba(200,184,154,0) 70%); pointer-events: none;
+    }
+    @keyframes rippleEffect { to { transform: scale(4); opacity: 0; } }
+
+    /* ПЛЕЕР */
+    .demo-player-panel { position: fixed; bottom: 0; left: 0; width: 100%; background: #0d0d11; border-top: 1px solid #1a1a1f; padding: 20px 8%; display: flex; align-items: center; justify-content: space-between; gap: 40px; z-index: 2500; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease; transform: translateY(100%); box-shadow: 0 -10px 40px rgba(0,0,0,0.8); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); }
+    .demo-player-panel.active { transform: translateY(0); animation: softPulse 2.5s infinite ease-in-out 0.6s; }
+    .player-track-meta-block { display: flex; flex-direction: column; gap: 2px; min-width: 200px; max-width: 30%; }
+    .player-panel-title { font-size: 15px; font-weight: 800; letter-spacing: 0.02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .player-panel-status { font-size: 11px; color: #c8b89a; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 800; }
+    .player-controls-timeline-row { display: flex; align-items: center; gap: 24px; flex: 1; }
+    .player-panel-play-btn { width: 46px; height: 46px; border-radius: 50%; background: #c8b89a; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #060606; font-size: 15px; transition: all 0.3s; flex-shrink: 0; }
+    .player-panel-play-btn:hover { background: #f0ece4; transform: scale(1.05); }
+    .player-timeline-container { width: 100%; display: flex; flex-direction: column; gap: 6px; }
+    .player-slider-bg { width: 100%; height: 4px; background: #222; border-radius: 2px; position: relative; cursor: pointer; }
+    .player-slider-current { height: 100%; background: #c8b89a; width: 0%; border-radius: 2px; }
+    .player-timestamps { display: flex; justify-content: space-between; font-family: monospace; font-size: 12px; color: #555; font-weight: 600; }
+
+    footer { padding: 60px 8%; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #121212; }
+    .footer-copy { color: #555; font-size: 14px; font-weight: 500; }
+    .footer-socials { display: flex; gap: 32px; }
+    .footer-socials a { color: #666; text-decoration: none; font-size: 14px; font-weight: 700; transition: color 0.3s; text-transform: uppercase; letter-spacing: 0.05em; }
+    .footer-socials a:hover { color: #c8b89a; }
+
+    @media (max-width: 1024px) { .hero-title { font-size: 80px; } .music-grid { grid-template-columns: 1fr; } .nav-links { display: none; } .burger-btn { display: block; } }
+    @media (max-width: 768px) { .demo-player-panel { flex-direction: column; gap: 14px; padding: 20px; align-items: stretch; } .player-track-meta-block { max-width: 100%; text-align: center; } .player-panel-title { white-space: normal; font-size: 14px; } .player-controls-timeline-row { width: 100%; } }
+    @media (max-width: 640px) { nav { padding: 20px 4%; } #hero { padding: 0 4%; } .hero-title { font-size: 50px; } section { padding: 80px 4%; } .gallery-grid { grid-template-columns: repeat(2, 1fr); } .gallery-item:first-child { grid-column: span 2; grid-row: span 1; } footer { flex-direction: column; gap: 24px; text-align: center; } .music-toggle-btn { bottom: 110px; right: 20px; padding: 10px 18px; } .subpage-container { padding: 40px 4% 160px 4%; } .bio-box { padding: 30px 20px; } }
+  </style>
+</head>
+<body>
+
+  <audio id="bg-music" loop preload="auto"><source src="images/music.mp3" type="audio/mpeg"></audio>
+  <audio id="hover-sound" preload="auto"><source src="images/hover.mp3" type="audio/mpeg"></audio>
+
+  <div class="bg-particles">
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div>
+  </div>
+
+  <button id="music-toggle" class="music-toggle-btn">
+    <i class="fa-solid fa-volume-xmark"></i> <span>Sound: Off</span>
+  </button>
+
+  <nav>
+    <a class="nav-logo" href="#hero">ГАЛЕРЕЯ</a>
+    <ul class="nav-links">
+      <li><a href="#members">Состав</a></li>
+      <li><a href="#shows">Концерты</a></li>
+      <li><a href="#music">Релизы</a></li>
+      <li><a href="#biography">Биография</a></li>
+      <li><a href="#gallery">Фотоальбом</a></li>
+      <li><a href="#donate" class="donate">Донаты</a></li>
+    </ul>
+    <button class="burger-btn" id="burger-toggle" aria-label="Открыть меню">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+  </nav>
+
+  <div class="mobile-menu-drawer" id="mobile-drawer">
+    <div class="mobile-music-section">
+      <div class="mobile-music-title">Альбом «Аппликация»</div>
+      <div class="mobile-music-links">
+        <a href="https://music.yandex.ru" target="_blank"><i class="fa-solid fa-music"></i> Яндекс Музыка</a>
+        <a href="https://vk.com/music" target="_blank"><i class="fa-brands fa-vk"></i> ВКонтакте</a>
+      </div>
+    </div>
+    <ul class="mobile-links-list">
+      <li><a href="#members" class="mobile-link-item">Состав</a></li>
+      <li><a href="#shows" class="mobile-link-item">Концерты</a></li>
+      <li><a href="#music" class="mobile-link-item">Релизы</a></li>
+      <li><a href="#biography" class="mobile-link-item">Биография</a></li>
+      <li><a href="#gallery" class="mobile-link-item">Фотоальбом</a></li>
+      <li><a href="#donate" class="mobile-link-item mobile-donate">Донаты</a></li>
+      <li><a href="#" id="mobile-demos-trigger" style="color: #c8b89a; border-top: 1px solid #1c1c1f; padding-top: 15px; margin-top: 5px; display: block;"><i class="fa-solid fa-compact-disc"></i> Демоверсии</a></li>
+    </ul>
+  </div>
+
+  <div id="hero">
+    <video autoplay loop muted playsinline poster="images/bg.jpg" class="hero-video">
+      <source src="images/bg.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
+    
+    <div class="hero-content">
+      <div class="hero-tag">Инди рок сцена Зеленограда</div>
+      <h1 class="hero-title">Это —<br><span>Галерея</span></h1>
+      <p class="hero-sub">Только живой звук. Только эксперименты. Не только инди.</p>
+      <div class="hero-btns">
+        <a href="#shows" class="btn-primary">Афиша анонсов</a>
+        <a href="#music" class="btn-ghost">Слушать альбом</a>
+        <button id="main-demos-trigger" class="btn-ghost" style="border-color: #c8b89a; color: #c8b89a;"><i class="fa-solid fa-compact-disc"></i> Демоверсии</button>
+      </div>
+    </div>
+  </div>
+
+  <section id="members">
+    <div class="section-label">Состав группы</div>
+    <div class="members-grid">
+      <div class="member-card scroll-reveal">
+        <div class="member-photo-box"><img src="images/members/roma.jpg" alt="Роман Акименко"></div>
+        <div class="member-info">
+          <div class="member-name">Роман Акименко</div>
+          <div class="member-role">Электрогитара · Вокал · Автор песен</div>
+          <span class="member-tag">Frontman</span>
+        </div>
+      </div>
+      <div class="member-card scroll-reveal">
+        <div class="member-photo-box"><img src="images/members/marina.jpg" alt="Марина Просто"></div>
+        <div class="member-info">
+          <div class="member-name">Марина Просто</div>
+          <div class="member-role">Соло-гитара</div>
+          <span class="member-tag">Solo</span>
+        </div>
+      </div>
+      <div class="member-card scroll-reveal">
+        <div class="member-photo-box"><img src="images/members/dima.jpg" alt="Дмитрий Морозов"></div>
+        <div class="member-info">
+          <div class="member-name">Дмитрий Морозов</div>
+          <div class="member-role">Труба</div>
+          <span class="member-tag">Brass</span>
+        </div>
+      </div>
+      <div class="member-card scroll-reveal">
+        <div class="member-photo-box"><img src="images/members/savva.jpg" alt="Савва Малкин"></div>
+        <div class="member-info">
+          <div class="member-name">Савва Малкин</div>
+          <div class="member-role">Бас-гитара</div>
+          <span class="member-tag">Bass</span>
+        </div>
+      </div>
+      <div class="member-card scroll-reveal">
+        <div class="member-photo-box"><img src="images/members/polina.jpg" alt="Полина Ушканова"></div>
+        <div class="member-info">
+          <div class="member-name">Полина Ушканова</div>
+          <div class="member-role">Ударные инструменты</div>
+          <span class="member-tag">Drums</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="shows">
+    <div class="section-label">Выступления</div>
+    <div class="shows-status-title"><i class="fa-solid fa-calendar-day"></i> Скоро</div>
+    <div class="shows-list">
+      <div style="padding: 24px 16px; color: #555; font-size: 16px; font-weight: 500; letter-spacing: 0.05em;">
+        Новых дат пока нет. Следите за анонсами в наших соцсетях.
+      </div>
+    </div>
+
+    <div class="shows-status-title past-title"><i class="fa-solid fa-history"></i> Прошедшие</div>
+    <div class="shows-list past-list">
+      <div class="show-row">
+        <div class="show-date">05.07.2025</div>
+        <div>
+          <div class="show-venue">«Кинематограф»</div>
+          <div class="show-meta">Зеленоград</div>
+        </div>
+        <span class="show-badge">Клуб</span>
+      </div>
+      <div class="show-row">
+        <div class="show-date">21.04.2025</div>
+        <div>
+          <div class="show-venue">Китайский лётчик Джао Да</div>
+          <div class="show-meta">Freedom Fest · Москва</div>
+        </div>
+        <span class="show-badge">Фестиваль</span>
+      </div>
+      <div class="show-row">
+        <div class="show-date">19.04.2025</div>
+        <div>
+          <div class="show-venue">Выпускной</div>
+          <div class="show-meta">Школа № 1557 · Москва</div>
+        </div>
+        <span class="show-badge">Концерт</span>
+      </div>
+      <div class="show-row">
+        <div class="show-date">02.02.2025</div>
+        <div>
+          <div class="show-venue">Клубклуб</div>
+          <div class="show-meta">Москва</div>
+        </div>
+        <span class="show-badge">Клуб</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="music">
+    <div class="section-label">Релизы</div>
+    <div class="music-grid">
+      <div class="album-card">
+        <div class="album-meta">
+          <div class="album-cover"><i class="fa-solid fa-record-vinyl"></i></div>
+          <div>
+            <div class="album-title">Аппликация</div>
+            <div class="album-desc">Дебютная пластинка в процессе масштабного переиздания. Доступна на цифровых площадках.</div>
+          </div>
+        </div>
+      </div>
+      <div class="stream-list">
+        <a href="https://music.yandex.ru" target="_blank" class="stream-link">Яндекс Музыка <i class="fa-solid fa-arrow-right"></i></a>
+        <a href="https://vk.com/music" target="_blank" class="stream-link">ВКонтакте <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="biography">
+    <video autoplay loop muted playsinline class="bio-video-bg">
+      <source src="images/bg.mp4" type="video/mp4">
+    </video>
+    <div class="bio-video-overlay"></div>
+    <div class="section-label section-label-bio">Биография группы</div>
+    
+    <div class="bio-box">
+      <div class="timeline">
+        
+        <div class="timeline-item scroll-reveal">
+          <div class="timeline-date">Лето — осень 2024</div>
+          <div class="timeline-title">Истоки и зеленоградский период</div>
+          <div class="timeline-text">
+            <p>История коллектива началась в Зеленограде (ЗЕЛАО), где группа изначально существовала под рабочим названием <span class="highlight">«минисекта / бессрочный отпуск»</span>. В этот ранний период состав музыкантов представлял собой компанию учащихся местных школ и колледжей: лидер проекта Рома, барабанщица Полина Ушканова, басист Иван Гончаров, гитарист Женя Зинченко и саксофонистка Соня Дашкова.</p>
+            <p>В августе 2024 года группа приступила к формированию первого постоянного треклиста. Столкнувшись с нехваткой баз в родном городе, команда репетирует в Москве (Red Gates, Under The Ground, Парус) и даже на квартирах. В сентябре прошла первая концептуальная фотосессия и сведение ключевых вокальных партий.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item scroll-reveal">
+          <div class="timeline-date">Октябрь 2024</div>
+          <div class="timeline-title">Официальный релиз и первый успех</div>
+          <div class="timeline-text">
+            <p><span class="highlight">1 октября 2024 года</span> состоялся официальный релиз дебютного альбома «Аппликация» на всех ключевых стриминговых платформах. Особый отклик у аудитории вызвала песня «Небо», удивившая критиков своим глубоким индастриал-звучанием.</p>
+            <p>Первый живой триумф случился 15 октября на школьном мероприятии — «посвяте 10А класса». Для выступления музыканты привезли собственную электронную ударную установку и устроили яркий перформанс в гавайском дресс-коде.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item scroll-reveal">
+          <div class="timeline-date">2024 — 2026</div>
+          <div class="timeline-title">Эволюция стиля и смена состава</div>
+          <div class="timeline-text">
+            <p>Проект окончательно отказывается от шутливых названий и закрепляет за собой лаконичное имя <span class="highlight">«Галерея»</span>. В ноябре 2024 года на смену Ване Гончарову приходит новый постоянный басист Савва Малкин, взявший на себя глубокую переработку аранжировок.</p>
+            <p>В начале 2025 года к «Галерее» присоединяется Марина (гитара, бас, звукоинженерия), а в середине года состав усиливается трубачом Димой, который обогатил классический инди-шугейз изысканными медными гармониями.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item scroll-reveal">
+          <div class="timeline-date">Наши дни</div>
+          <div class="timeline-title">Выход на большую сцену</div>
+          <div class="timeline-text">
+            <p>Сегодня «Галерея» — это авторитетный и сыгранный проект с проработанной концепцией. Группа переросла рамки зеленоградских площадок и регулярно собирает залы на культовых московских сценах, таких как <span class="highlight">«Клуб»</span> и <span class="highlight">«Китайский лётчик Джао Да»</span>.</p>
+            <p>Музыканты активно заняты фиксацией нового материала, расширением треклиста и подготовкой к масштабным летним фестивалям при поддержке своей преданной фан-базы.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery">
+    <div class="section-label">Фотоальбом галереи</div>
+    <div class="gallery-grid">
+      <div class="gallery-item scroll-reveal"><img src="images/gallery/photo1.jpg" alt="Live"></div>
+      <div class="gallery-item scroll-reveal"><img src="images/gallery/photo2.jpg" alt="Live"></div>
+      <div class="gallery-item scroll-reveal"><img src="images/gallery/photo3.jpg" alt="Live"></div>
+      <div class="gallery-item scroll-reveal"><img src="images/gallery/photo4.jpg" alt="Live"></div>
+      <div class="gallery-item scroll-reveal"><img src="images/gallery/photo5.jpg" alt="Live"></div>
+      <div class="gallery-item scroll-reveal"><img src="images/gallery/photo6.jpg" alt="Live"></div>
+      <div class="gallery-item scroll-reveal"><img src="images/gallery/photo7.jpg" alt="Live"></div>
+    </div>
+  </section>
+
+  <section id="donate">
+    <div class="donate-box">
+      <div class="donate-title">Поддержать независимый звук</div>
+      <div class="donate-text">Каждый вклад ускоряет выпуск переиздания альбома «Аппликация» и помогает нам обновлять концертное оборудование.</div>
+      <a href="https://yoomoney.ru" target="_blank" class="donate-button">Отправить донат</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-copy">© 2026 Галерея. Все права защищены.</div>
+    <div class="footer-socials">
+      <a href="https://t.me/galleryband" target="_blank">TELEGRAM</a>
+      <a href="https://vk.com/galleryband" target="_blank">VK</a>
+    </div>
+  </footer>
+
+  <div class="subpage-container" id="demos-page">
+    <div class="subpage-header">
+      <div>
+        <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.2em; color: #c8b89a; font-weight: 800;">Лаборатория звука</span>
+        <h2 style="font-size: 36px; font-weight: 900; text-transform: uppercase; margin-top: 5px;">Демоверсии</h2>
+      </div>
+      <button class="btn-back" id="close-demos"><i class="fa-solid fa-arrow-left"></i> На главную</button>
+    </div>
+    <div class="demos-layout">
+      <div class="demos-list-wrapper" id="demos-list"></div>
+    </div>
+  </div>
+
+  <div class="demo-player-panel" id="global-player-bar">
+    <div class="player-track-meta-block">
+      <div class="player-panel-status" id="player-status">Плеер готов</div>
+      <div class="player-panel-title" id="player-track-name">Выберите трек</div>
+    </div>
+    <div class="player-controls-timeline-row">
+      <button class="player-panel-play-btn" id="demo-play-btn"><i class="fa-solid fa-play"></i></button>
+      <div class="player-timeline-container">
+        <div class="player-slider-bg" id="demo-progress-bar">
+          <div class="player-slider-current" id="demo-progress-current"></div>
+        </div>
+        <div class="player-timestamps">
+          <span id="demo-time-current">0:00</span>
+          <span id="demo-time-duration">0:00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <audio id="demo-audio-player" preload="none"></audio>
+
+  <script>
+    // ПАРАЛЛАКС И АНИМАЦИИ
+    const heroVideo  = document.querySelector('.hero-video');
+    const bioVideoBg = document.querySelector('.bio-video-bg');
+    const bioSection = document.getElementById('biography');
+    const memberCards = document.querySelectorAll('.member-card');
+    const showRows    = document.querySelectorAll('.show-row');
+    const sectionLabels = document.querySelectorAll('.section-label');
+
+    let rafPending = false;
+    function onScroll() {
+      if (!rafPending) { requestAnimationFrame(runParallax); rafPending = true; }
+    }
+
+    function runParallax() {
+      const sy = window.scrollY;
+      if (heroVideo) heroVideo.style.transform = `translateY(${sy * 0.32}px)`;
+      if (bioVideoBg && bioSection) {
+        const bioTop = bioSection.getBoundingClientRect().top + sy;
+        const offset = (sy - bioTop) * 0.07;
+        bioVideoBg.style.transform = `scale(1.12) translateY(${offset}px)`;
+      }
+      sectionLabels.forEach(label => {
+        const cy = label.getBoundingClientRect().top - window.innerHeight / 2;
+        label.style.transform = `translateX(${Math.max(-18, Math.min(18, cy * 0.035))}px)`;
+      });
+      memberCards.forEach((card, i) => {
+        if (card.matches(':hover')) return;
+        const cy = card.getBoundingClientRect().top - window.innerHeight / 2;
+        const dir = i % 2 === 0 ? 1 : -1;
+        card.style.transform = `translateY(${Math.max(-10, Math.min(10, cy * 0.035 * dir))}px)`;
+      });
+      showRows.forEach((row, i) => {
+        if (row.matches(':hover')) return;
+        const progress = 1 - row.getBoundingClientRect().top / window.innerHeight;
+        row.style.transform = `translateX(${Math.sin(progress * Math.PI + i * 0.6) * 5}px)`;
+      });
+      rafPending = false;
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    const revealObs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.scroll-reveal').forEach(el => revealObs.observe(el));
+
+    // ДЕМО-ТРЕКИ
+    const demoTracks = [
+      { id: 1, name: "Янтарь (Lo-Fi Demo 2025)", src: "images/demos/demo1.mp3", duration: "4:19" },
+      { id: 2, name: "Неудачный дубль (2026)", src: "images/demos/demo2.mp3", duration: "4:59" },
+      { id: 3, name: "Когда мне ждать тепла? (2024)", src: "images/demos/demo3.mp3", duration: "2:09" },
+      { id: 4, name: "Звезды (2025)", src: "images/demos/demo4.mp3", duration: "3:36" },
+      { id: 5, name: "You will see me (2024)", src: "images/demos/demo5.mp3", duration: "3:06" },
+      { id: 6, name: "BMW (2025)", src: "images/demos/demo6.mp3", duration: "3:13" },	
+      { id: 7, name: "осталось совсем немного до рассвета (2025)", src: "images/demos/demo7.mp3", duration: "2:58" }
+    ];
+
+    const bgMusic = document.getElementById('bg-music');
+    const musicToggle = document.getElementById('music-toggle');
+    const hoverSound = document.getElementById('hover-sound');
+    const burgerToggle = document.getElementById('burger-toggle');
+    const mobileDrawer = document.getElementById('mobile-drawer');
+
+    const icon = musicToggle.querySelector('i');
+    const text = musicToggle.querySelector('span');
+
+    let audioUnlocked = false;
+    bgMusic.volume = 0.05; 
+
+    musicToggle.addEventListener('click', () => {
+      if (!audioUnlocked) {
+        hoverSound.play().then(() => { hoverSound.pause(); hoverSound.currentTime = 0; }).catch(e => {});
+        audioUnlocked = true;
+      }
+      if (bgMusic.paused) {
+        bgMusic.play().then(() => {
+          musicToggle.classList.add('playing'); icon.className = 'fa-solid fa-volume-high'; text.textContent = 'Sound: On';
+        }).catch(err => alert("Браузер заблокировал автоматический звук."));
+      } else {
+        bgMusic.pause(); musicToggle.classList.remove('playing'); icon.className = 'fa-solid fa-volume-xmark'; text.textContent = 'Sound: Off';
+      }
+    });
+
+    const modules = document.querySelectorAll('.member-card, .show-row, .stream-link, .btn-primary, .btn-ghost, .gallery-item, .donate-button, .demo-track-card');
+    modules.forEach(item => {
+      item.addEventListener('mouseenter', () => {
+        if (audioUnlocked) { hoverSound.currentTime = 0; hoverSound.volume = 0.4; hoverSound.play().catch(o => {}); }
+      });
+    });
+
+    burgerToggle.addEventListener('click', () => {
+      mobileDrawer.classList.toggle('active');
+      const isOpen = mobileDrawer.classList.contains('active');
+      mobileDrawer.style.transform = isOpen ? 'translateX(0)' : 'translateX(100%)';
+      burgerToggle.innerHTML = isOpen ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-bars"></i>';
+    });
+
+    document.querySelectorAll('.mobile-link-item').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileDrawer.classList.remove('active');
+        mobileDrawer.style.transform = 'translateX(100%)';
+        burgerToggle.innerHTML = '<i class="fa-solid fa-bars"></i>';
+      });
+    });
+
+    let startX = 0; let currentX = 0; let isDraggingDrawer = false;
+    mobileDrawer.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; currentX = startX; isDraggingDrawer = true; mobileDrawer.style.transition = 'none'; }, { passive: true });
+    mobileDrawer.addEventListener('touchmove', (e) => { if (!isDraggingDrawer) return; currentX = e.touches[0].clientX; let deltaX = currentX - startX; if (deltaX < 0) deltaX = 0; mobileDrawer.style.transform = `translateX(${deltaX}px)`; }, { passive: true });
+    mobileDrawer.addEventListener('touchend', () => {
+      if (!isDraggingDrawer) return; isDraggingDrawer = false; mobileDrawer.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+      let deltaX = currentX - startX;
+      if (deltaX > 100) { mobileDrawer.classList.remove('active'); mobileDrawer.style.transform = 'translateX(100%)'; burgerToggle.innerHTML = '<i class="fa-solid fa-bars"></i>'; } 
+      else { mobileDrawer.style.transform = 'translateX(0)'; }
+    });
+
+    document.addEventListener('touchstart', (e) => { if (!mobileDrawer.classList.contains('active') && e.touches[0].clientX > window.innerWidth - 30) { startX = e.touches[0].clientX; currentX = startX; isDraggingDrawer = true; mobileDrawer.style.transition = 'none'; } }, { passive: true });
+    document.addEventListener('touchmove', (e) => {
+      if (!isDraggingDrawer || mobileDrawer.classList.contains('active')) return;
+      currentX = e.touches[0].clientX; let pullDist = startX - currentX; if (pullDist < 0) pullDist = 0; if (pullDist > 320) pullDist = 320;
+      mobileDrawer.style.transform = `translateX(${320 - pullDist}px)`;
+    }, { passive: true });
+    document.addEventListener('touchend', () => {
+      if (mobileDrawer.classList.contains('active') || !isDraggingDrawer) return;
+      isDraggingDrawer = false; mobileDrawer.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+      let pullDist = startX - currentX;
+      if (pullDist > 100) { mobileDrawer.classList.add('active'); mobileDrawer.style.transform = 'translateX(0)'; burgerToggle.innerHTML = '<i class="fa-solid fa-xmark"></i>'; } 
+      else { mobileDrawer.style.transform = 'translateX(100%)'; }
+    });
+
+    const demosPage = document.getElementById('demos-page');
+    const mainDemosTrigger = document.getElementById('main-demos-trigger');
+    const mobileDemosTrigger = document.getElementById('mobile-demos-trigger');
+    const closeDemos = document.getElementById('close-demos');
+    const demoAudio = document.getElementById('demo-audio-player');
+    const demosListContainer = document.getElementById('demos-list');
+    const demoPlayBtn = document.getElementById('demo-play-btn');
+    const demoProgressBar = document.getElementById('demo-progress-bar');
+    const demoProgressCurrent = document.getElementById('demo-progress-current');
+    const demoTimeCurrent = document.getElementById('demo-time-current');
+    const demoTimeDuration = document.getElementById('demo-time-duration');
+    const playerTrackName = document.getElementById('player-track-name');
+    const playerStatus = document.getElementById('player-status');
+    const globalPlayerBar = document.getElementById('global-player-bar');
+
+    let currentTrackIndex = null;
+
+    function openDemosSubpage() {
+      demosPage.classList.add('active'); document.body.style.overflow = 'hidden'; 
+      mobileDrawer.classList.remove('active'); mobileDrawer.style.transform = 'translateX(100%)'; burgerToggle.innerHTML = '<i class="fa-solid fa-bars"></i>';
+      document.title = "Демоверсии — Галерея";
+      if (!bgMusic.paused) { bgMusic.pause(); musicToggle.classList.remove('playing'); icon.className = 'fa-solid fa-volume-xmark'; text.textContent = 'Sound: Off'; }
+    }
+
+    mainDemosTrigger.addEventListener('click', openDemosSubpage);
+    mobileDemosTrigger.addEventListener('click', (e) => { e.preventDefault(); openDemosSubpage(); });
+    closeDemos.addEventListener('click', () => { demosPage.classList.remove('active'); document.body.style.overflow = ''; document.title = "Галерея — инди-рок группа"; });
+
+    function renderDemoTracks() {
+      demosListContainer.innerHTML = '';
+      demoTracks.forEach((track, index) => {
+        const card = document.createElement('div');
+        card.className = 'demo-track-card'; 
+        card.dataset.index = index;
+        card.innerHTML = `
+          <div class="demo-track-info-main">
+            <span class="demo-track-idx">${String(index + 1).padStart(2, '0')}</span>
+            <span class="demo-track-name">${track.name}</span>
+          </div>
+          <span class="demo-track-duration">${track.duration}</span>
+        `;
+        
+        card.addEventListener('click', function(e) {
+          createRipple(e, this);
+          selectTrack(index);
+        });
+        
+        demosListContainer.appendChild(card);
+      });
+    }
+
+    function createRipple(event, element) {
+      const circle = document.createElement('span');
+      const diameter = Math.max(element.clientWidth, element.clientHeight);
+      const radius = diameter / 2;
+      const rect = element.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      
+      circle.style.width = circle.style.height = `${diameter}px`;
+      circle.style.left = `${x - radius}px`;
+      circle.style.top = `${y - radius}px`;
+      circle.classList.add('ripple');
+      
+      const existingRipple = element.querySelector('.ripple');
+      if (existingRipple) {
+        existingRipple.remove();
+      }
+      
+      element.appendChild(circle);
+    }
+
+    renderDemoTracks();
+
+    function selectTrack(index) {
+      currentTrackIndex = index; const track = demoTracks[index];
+      demoAudio.src = track.src; playerTrackName.textContent = track.name; playerStatus.textContent = "Воспроизведение";
+      globalPlayerBar.classList.add('active');
+      document.querySelectorAll('.demo-track-card').forEach((c, i) => { if (i === index) c.classList.add('active-track'); else c.classList.remove('active-track'); });
+      demoAudio.play().then(() => { demoPlayBtn.innerHTML = '<i class="fa-solid fa-pause"></i>'; }).catch(e => { playerStatus.textContent = "Ошибка загрузки файла"; });
+    }
+
+    demoPlayBtn.addEventListener('click', () => {
+      if (currentTrackIndex === null) { if(demoTracks.length > 0) selectTrack(0); return; }
+      if (demoAudio.paused) { demoAudio.play(); demoPlayBtn.innerHTML = '<i class="fa-solid fa-pause"></i>'; playerStatus.textContent = "Воспроизведение"; } 
+      else { demoAudio.pause(); demoPlayBtn.innerHTML = '<i class="fa-solid fa-play"></i>'; playerStatus.textContent = "На паузе"; }
+    });
+
+    function formatTime(secs) { let m = Math.floor(secs / 60); let s = Math.floor(secs % 60); if (s < 10) s = "0" + s; return m + ":" + s; }
+
+    demoAudio.addEventListener('timeupdate', () => {
+      if (!isNaN(demoAudio.duration)) {
+        const pct = (demoAudio.currentTime / demoAudio.duration) * 100;
+        demoProgressCurrent.style.width = pct + '%';
+        demoTimeCurrent.textContent = formatTime(demoAudio.currentTime);
+        demoTimeDuration.textContent = formatTime(demoAudio.duration);
+      }
+    });
+
+    demoProgressBar.addEventListener('click', (e) => {
+      if (demoAudio.src) { const coord = demoProgressBar.getBoundingClientRect(); const pct = (e.clientX - coord.left) / coord.width; demoAudio.currentTime = pct * demoAudio.duration; }
+    });
+  </script>
+
+</body>
+</html>
